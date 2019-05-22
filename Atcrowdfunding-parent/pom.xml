@@ -22,7 +22,7 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>2.5</version>
-				<scope>provided</scope><!-- 注意！！！！ -->
+				<scope>provided</scope><!-- 注意  提供的，不参与部署，Tomcat本身提供的！！！！ -->
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
