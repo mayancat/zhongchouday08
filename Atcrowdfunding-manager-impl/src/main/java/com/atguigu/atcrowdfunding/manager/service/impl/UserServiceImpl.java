@@ -1,5 +1,7 @@
 package com.atguigu.atcrowdfunding.manager.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,8 @@ import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.exception.LoginFailException;
 import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
+import com.atguigu.atcrowdfunding.util.Const;
+import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
 
 @Service
@@ -67,8 +71,43 @@ public class UserServiceImpl implements UserService {
 	}*/
 
 	@Override
-	public int saveUser(User user) {		
+	public int saveUser(User user) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Date date = new Date();
+		
+		String createtime = sdf.format(date);
+		
+		user.setCreatetime(createtime);
+		
+		user.setUserpswd(MD5Util.digest(Const.PASSWORD));
+		
 		return userMapper.insert(user);
+	}
+
+	public User getUserById(Integer id) {
+		return userMapper.selectByPrimaryKey(id);
+	}
+
+	public int updateUser(User user) {
+		return userMapper.updateByPrimaryKey(user);
+	}
+
+	public int deleteUser(Integer id) {
+		return userMapper.deleteByPrimaryKey(id);
+	}
+
+	public int deleteBatchUser(Integer[] ids) {
+		int totalCount = 0 ;
+		for (Integer id : ids) {
+			int count = userMapper.deleteByPrimaryKey(id);
+			totalCount += count;
+		}
+		if(totalCount!=ids.length){
+			throw new RuntimeException("批量删除失败");
+		}
+		return totalCount;
 	}
 
 	

@@ -17,4 +17,12 @@ public interface UserService {
 
 	Page queryPage(Map<String,Object> paramMap);
 
+	User getUserById(Integer id);
+
+	int updateUser(User user);
+
+	int deleteUser(Integer id);
+
+	int deleteBatchUser(Integer[] ids);
+
 }
