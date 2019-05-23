@@ -333,8 +333,12 @@
             $("#allCheckbox").click(function(){
             	var checkedStatus = this.checked ;
             	//alert(checkedStatus);
+            	if(checkedStatus){
+            		$("tbody tr td input[type='checkbox']").prop("checked", true);
+            	}else{
+            		$("tbody tr td input[type='checkbox']").prop("checked", false);
+            	}
             	
-            	$("tbody tr td input[type='checkbox']").attr("checked",checkedStatus);
 
             });
             
@@ -370,6 +374,7 @@
                 		},
                 		success : function(result){
                 			if(result.success){
+                				layer.msg("删除用户成功", {time:3000, icon:6, shift:6}); 
                 				window.location.href="${APP_PATH}/user/toIndex.htm";
                 			}else{
                 				layer.msg("删除用户失败", {time:1000, icon:5, shift:6}); 
