@@ -236,8 +236,8 @@
             	
             });
             
-            
             $("#resetBtn").click(function(){
+            	/* 将jQuery对象转换为为dom对象；jQuery对象中没有reset()函数 */
             	$("#addForm")[0].reset();
             });
             
