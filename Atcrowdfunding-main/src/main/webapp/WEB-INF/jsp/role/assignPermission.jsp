@@ -113,7 +113,7 @@
 				
 				var setting = {
                     check : {
-                        enable : true 
+                        enable : true  //在树节点前显示复选框
                     },
 					view: {
 						selectedMulti: false,
@@ -125,8 +125,8 @@
 						},
 					},
 					async: {
-						enable: true,
-						url:"${APP_PATH}/permission/loadDataAsync.do?roleid=${param.roleid}",
+						enable: true, //采用异步
+						url:"${APP_PATH}/role/loadDataAsync.do?roleid=${param.roleid}", // ?id=1&n=xxx&lv=2
 						autoParam:["id", "name=n", "level=lv"]
 					},
 					callback: {
@@ -135,7 +135,10 @@
 						}
 					}
 				};
-				$.fn.zTree.init($("#treeDemo"), setting);
+				
+				//异步加载树:注意问题,服务器端返回的结果必须是一个数组.
+				$.fn.zTree.init($("#treeDemo"), setting); //异步加载树的数据.
+				//$.fn.zTree.init($("#treeDemo"), setting , ztreeJSON);//同步加载树的数据.
             });
             
             $("#assignPermissionBtn").click(function(){

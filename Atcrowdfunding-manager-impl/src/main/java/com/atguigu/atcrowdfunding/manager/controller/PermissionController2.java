@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.atguigu.atcrowdfunding.bean.Permission;
-import com.atguigu.atcrowdfunding.controller.BaseController;
 import com.atguigu.atcrowdfunding.manager.service.PermissionService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 
-@Controller
-@RequestMapping("/permission")
-public class PermissionController extends BaseController {
+//@Controller
+//@RequestMapping("/permission")
+public class PermissionController2 {
 
 	@Autowired
 	private PermissionService permissionService;
@@ -43,24 +42,6 @@ public class PermissionController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/deletePermission")
 	public Object deletePermission(Integer id){
-		start();
-		
-		try {
-			
-			int count = permissionService.deletePermission(id);
-			
-			success(count==1);
-		} catch (Exception e) {
-			success(false);
-			error("删除许可树数据失败!");
-		}
-
-		return end() ;
-	}
-	
-	/*@ResponseBody
-	@RequestMapping("/deletePermission")
-	public Object deletePermission(Integer id){
 		AjaxResult result = new AjaxResult();
 		
 		try {
@@ -74,7 +55,7 @@ public class PermissionController extends BaseController {
 		}
 
 		return result ;
-	}*/
+	}
 	
 	@ResponseBody
 	@RequestMapping("/doUpdate")

@@ -1,6 +1,8 @@
 package com.atguigu.atcrowdfunding.manager.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.bean.Role;
+import com.atguigu.atcrowdfunding.controller.BaseController;
+import com.atguigu.atcrowdfunding.manager.service.PermissionService;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 import com.atguigu.atcrowdfunding.util.Page;
@@ -18,10 +23,13 @@ import com.atguigu.atcrowdfunding.vo.Data;
 
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController{
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private PermissionService permissionService;
 
 	@RequestMapping("/index")
 	public String index() {
@@ -37,12 +45,50 @@ public class RoleController {
 	
 	
 	
-	@RequestMapping("/assign")
-	public String assign() {
+	@RequestMapping("/assignPermission")
+	public String assignPermission() {
 		return "role/assignPermission";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/loadDataAsync")
+	public Object loadDataAsync(Integer roleid){
 	
+		List<Permission> root = new ArrayList<Permission>();
+		
+		List<Permission> childredPermissons =  permissionService.queryAllPermission();
+		
+		
+		//根据角色id查询该角色之前所分配过的许可.
+		List<Integer> permissonIdsForRoleid = permissionService.queryPermissionidsByRoleid(roleid);
+		
+		
+		Map<Integer,Permission> map = new HashMap<Integer,Permission>();//100
+		
+		for (Permission innerpermission : childredPermissons) {
+			map.put(innerpermission.getId(), innerpermission);
+			if(permissonIdsForRoleid.contains(innerpermission.getId())){
+				innerpermission.setChecked(true);
+			}
+		}
+		
+		
+		for (Permission permission : childredPermissons) { //100
+			//通过子查找父
+			//子菜单
+			Permission child = permission ; //假设为子菜单
+			if(child.getPid() == null ){
+				root.add(permission);
+			}else{
+				//父节点
+				Permission parent = map.get(child.getPid());
+				parent.getChildren().add(child);
+			}
+		}
+		
+
+		return root ;
+	}
 	
 	@ResponseBody
 	@RequestMapping("/doAssignPermission")

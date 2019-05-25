@@ -15,13 +15,13 @@ public class Test4 {
 		UserService userService = ioc.getBean(UserService.class);
 		
 		
-		for (int i = 101; i <= 200; i++) {
+		for (int i = 1; i <= 100; i++) {
 			User user = new User();
 			user.setLoginacct("test"+i);
 			user.setUserpswd(MD5Util.digest("123"));
 			user.setUsername("test"+i);
-			user.setEmail("2045579742"+i+"@qq.com");
-			user.setCreatetime("2019-05-23 14:17:00");
+			user.setEmail("test"+i+"@atguigu.com");
+			user.setCreatetime("2017-09-23 14:17:00");
 			userService.saveUser(user);
 		}
 		

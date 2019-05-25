@@ -1,16 +1,17 @@
 package com.atguigu.atcrowdfunding.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
@@ -35,7 +36,39 @@ public class DispatcherController {
 	}
 	
 	@RequestMapping("/main")
-	public String main(){	
+	public String main(HttpSession session){	
+		
+		//加载当前登录用户的所拥有的许可权限.
+		
+		User user = (User)session.getAttribute(Const.LOGIN_USER);
+		
+		List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
+		
+		Permission permissionRoot = null;
+		
+		Map<Integer,Permission> map = new HashMap<Integer,Permission>();
+		
+		for (Permission innerpermission : myPermissions) {
+			map.put(innerpermission.getId(), innerpermission);
+		}
+		
+		
+		for (Permission permission : myPermissions) {
+			//通过子查找父
+			//子菜单
+			Permission child = permission ; //假设为子菜单
+			if(child.getPid() == null ){
+				permissionRoot = permission;
+			}else{
+				//父节点
+				Permission parent = map.get(child.getPid());
+				parent.getChildren().add(child);
+			}
+		}
+		
+		
+		session.setAttribute("permissionRoot", permissionRoot);
+
 		return "main";
 	}
 	
