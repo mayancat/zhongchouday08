@@ -206,7 +206,7 @@
             	var floginacct = $("#floginacct");
             	var fusername = $("#fusername");
             	var femail = $("#femail");
-            	var loadingIndex = -1 ;
+            	
             	
             	$.ajax({
             		type : "POST",
@@ -216,14 +216,11 @@
             			"email" : femail.val()            			
             		},
             		url : "${APP_PATH}/user/doAdd.do",
-            		beforeSend : function() {  
-            			loadingIndex=layer.msg('处理中', {icon: 16});
+            		beforeSend : function() {            			
             			return true ;
             		},
             		success : function(result){
             			if(result.success){
-            				layer.close(loadingIndex);
-            				layer.msg("保存用户成功", {time:1000, icon:6, shift:6});
             				window.location.href="${APP_PATH}/user/toIndex.htm";
             			}else{
             				layer.msg("保存用户失败", {time:1000, icon:5, shift:6}); 
@@ -236,8 +233,8 @@
             	
             });
             
+            
             $("#resetBtn").click(function(){
-            	/* 将jQuery对象转换为为dom对象；jQuery对象中没有reset()函数 */
             	$("#addForm")[0].reset();
             });
             

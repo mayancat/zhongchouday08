@@ -1,12 +1,13 @@
 package com.atguigu.atcrowdfunding.util;
 
 public class AjaxResult {
-	//表示成功还是失败
+
 	private boolean success ;
-	//原因
 	private String message ;
-	//封装的page对象
+	
 	private Page page ;
+	
+	private Object data ;
 
 	public boolean getSuccess() {
 		return success;
@@ -30,6 +31,14 @@ public class AjaxResult {
 
 	public void setPage(Page page) {
 		this.page = page;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 	
 	

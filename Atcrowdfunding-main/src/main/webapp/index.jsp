@@ -4,8 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- 10秒后自动跳转目标页面 -->
-<%-- <meta http-equiv="Refresh" content="10;URL=${APP_PATH }/index.htm">  --%>
+<%-- <meta http-equiv="Refresh" content="0;URL=${APP_PATH }/index.htm"> --%> 
 
 <title>Insert title here</title>
 </head>

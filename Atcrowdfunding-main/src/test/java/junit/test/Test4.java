@@ -20,8 +20,8 @@ public class Test4 {
 			user.setLoginacct("test"+i);
 			user.setUserpswd(MD5Util.digest("123"));
 			user.setUsername("test"+i);
-			user.setEmail("test"+i+"@atguigu.com");
-			user.setCreatetime("2017-09-23 14:17:00");
+			user.setEmail("2045579742"+i+"@qq.com");
+			user.setCreatetime("2019-05-23 14:17:00");
 			userService.saveUser(user);
 		}
 		

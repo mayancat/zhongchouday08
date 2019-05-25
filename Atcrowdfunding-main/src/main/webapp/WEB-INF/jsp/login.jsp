@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -21,7 +21,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">众筹网-创意产品众筹平台</a></div>
+          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
         </div>
       </div>
     </nav>
@@ -69,13 +69,13 @@
     	var floginacct = $("#floginacct");
     	var fuserpswd = $("#fuserpswd");
     	var ftype = $("#ftype");
+    	
+    	
     	//对于表单数据而言不能用null进行判断,如果文本框什么都不输入,获取的值是""
-    	//$.trim("how are you ?")去掉字符串起始和结束的空格
     	if($.trim(floginacct.val()) == ""){
     		//alert("用户账号不能为空,请重新输入!");
     		layer.msg("用户账号不能为空,请重新输入!", {time:1000, icon:5, shift:6}, function(){
     			floginacct.val("");
-    			//重新获取焦点
         		floginacct.focus();
         		//return false ;  //不能结束if,只是结束msg函数.
     		});    		

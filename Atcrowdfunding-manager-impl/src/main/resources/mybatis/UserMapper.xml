@@ -14,7 +14,6 @@
 		delete from t_user
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<!-- 由框架帮我们生成主键回填到id属性上 -->
 	<insert id="insert" parameterType="com.atguigu.atcrowdfunding.bean.User" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user (id,
 		loginacct, userpswd,
@@ -71,8 +70,7 @@
 		username, email, createtime
 		from t_user 
 		<where>
-			<!-- concat("%",#{queryText},"%") -->
-			<if test="queryText!=null">loginacct like '%'#{queryText}'%' </if>
+			<if test="queryText!=null">loginacct like concat("%",#{queryText},"%")</if>
 		</where> 
 		 order by createtime desc
 		 limit #{startIndex},#{pagesize} 
@@ -85,5 +83,55 @@
 			<if test="queryText!=null">loginacct like concat("%",#{queryText},"%")</if>
 		</where>
 	</select>
+	<!-- 
+	<delete id="deleteBatchUserByVO" >
+		delete from t_user where id in 		
+		<foreach collection="datas" open="(" close=")" separator="," item="user">
+			#{user.id}
+		</foreach>		
+	</delete>
+	 -->
+	 
+	 
+	 <!-- 
+	 Caused by: org.apache.ibatis.binding.BindingException: 
+	 Parameter 'userList' not found. Available parameters are [list]
+	 
+	 如果Mapper接口参数类型为Collection集合,那么,可以使用list来获取这个集合参数.
+	 如果Mapper接口参数类型为Array数组,那么,可以使用array来获取这个数组参数.
+	 
+	 方法参数只有一个的时候,可以使用"_parameter" 来代替.在if标签上可以做测试.
+	 <if test="_parameter"></if>
+	  -->
+	  
+	<delete id="deleteBatchUserByVO" >
+		delete from t_user where id in 		
+		<foreach collection="userList" open="(" close=")" separator="," item="user">
+			#{user.id}
+		</foreach>		
+	</delete>
+	
+	
+	<select id="querAllRole" resultType="Role">
+		select id,name from t_role ;
+	</select>
+	<select id="queryRoleByUserid" parameterType="int" resultType="int">
+		select roleid from t_user_role where userid=#{id}
+	</select>
+	
+	
+	
+	<insert id="saveUserRoleRelationship">		
+		<foreach collection="data.ids" item="roleid" separator=";">
+		insert into t_user_role(userid,roleid) values(#{userid},#{roleid})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteUserRoleRelationship">
+		delete from t_user_role where userid=#{userid} and roleid in
+		<foreach collection="data.ids" item="roleid" open="(" separator="," close=")">
+			#{roleid}
+		</foreach>
+	</delete>
 
 </mapper>

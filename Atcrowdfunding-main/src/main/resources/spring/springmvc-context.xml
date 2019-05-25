@@ -22,10 +22,8 @@
     
     <!-- 字符串字符编码转换 -->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
-    	<!-- 消息转换 -->
         <property name="messageConverters">   
 	         <list>
-	         	<!-- 将json数据转换为json字符串返回 -->
 	             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">   
 	                <property name="supportedMediaTypes">
 	                      <list>

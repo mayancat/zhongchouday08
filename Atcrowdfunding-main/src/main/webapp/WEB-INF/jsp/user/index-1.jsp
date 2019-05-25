@@ -159,9 +159,9 @@
               </thead>
               <tbody>
               
+              
               	<c:forEach items="${page.datas }" var="user" varStatus="status">
 	                <tr>
-	                  <!-- count索引1开始，index索引0开始 -->
 	                  <td>${status.count }</td>
 					  <td><input type="checkbox"></td>
 	                  <td>${user.loginacct }</td>

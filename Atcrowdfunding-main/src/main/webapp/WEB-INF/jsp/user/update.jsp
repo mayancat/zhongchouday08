@@ -184,7 +184,6 @@
     <script src="${APP_PATH }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH }/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH }/script/docs.min.js"></script>
-	<script type="text/javascript" src="${APP_PATH }/jquery/layer/layer.js"></script>
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -221,13 +220,11 @@
             			"id" : "${user.id}"
             		},
             		url : "${APP_PATH}/user/doUpdate.do",
-            		beforeSend : function() { 
-            			layer.msg('处理中', {icon: 16});	
+            		beforeSend : function() {            			
             			return true ;
             		},
             		success : function(result){
             			if(result.success){
-            				layer.msg("修改用户成功", {time:1000, icon:6, shift:6});
             				window.location.href="${APP_PATH}/user/toIndex.htm";
             			}else{
             				layer.msg("修改用户失败", {time:1000, icon:5, shift:6}); 

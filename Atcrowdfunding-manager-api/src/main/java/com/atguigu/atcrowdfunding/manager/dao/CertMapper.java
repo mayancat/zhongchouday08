@@ -1,16 +1,36 @@
 package com.atguigu.atcrowdfunding.manager.dao;
 
-import com.atguigu.atcrowdfunding.bean.Cert;
 import java.util.List;
+import java.util.Map;
+
+import com.atguigu.atcrowdfunding.bean.Cert;
+import com.atguigu.atcrowdfunding.vo.Data;
 
 public interface CertMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Cert record);
+	Cert queryCert(Map<String, Object> paramMap);
 
-    Cert selectByPrimaryKey(Integer id);
+	List<Cert> pageQuery(Map<String, Object> paramMap);
 
-    List<Cert> selectAll();
+	int queryCount(Map<String, Object> paramMap);
 
-    int updateByPrimaryKey(Cert record);
+	void insertCert(Cert cert);
+
+	Cert queryById(Integer id);
+
+	int updateCert(Cert cert);
+
+	int deleteCert(Integer id);
+
+	int deleteCerts(Data ds);
+
+	List<Cert> queryCertByAccttype(String accttype);
+
+	List<Cert> queryAllCert();
+
+	List<Map<String, Object>> queryAllAccttypeCert();
+
+	int insertAccttypeCert(Map<String, Object> map);
+
+	int deleteAccttypeCert(Map<String, Object> map);
 }

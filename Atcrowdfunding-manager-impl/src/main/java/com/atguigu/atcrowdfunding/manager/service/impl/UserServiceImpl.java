@@ -5,9 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.exception.LoginFailException;
 import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
@@ -15,6 +18,7 @@ import com.atguigu.atcrowdfunding.manager.service.UserService;
 import com.atguigu.atcrowdfunding.util.Const;
 import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,7 +48,7 @@ public class UserServiceImpl implements UserService {
 		
 		List<User> datas = userMapper.queryList(paramMap);
 		
-		page.setDatas(datas);
+		page.setData(datas);
 		
 		Integer totalsize = userMapper.queryCount(paramMap);
 		
@@ -86,18 +90,22 @@ public class UserServiceImpl implements UserService {
 		return userMapper.insert(user);
 	}
 
+	@Override
 	public User getUserById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
 	public int updateUser(User user) {
 		return userMapper.updateByPrimaryKey(user);
 	}
 
+	@Override
 	public int deleteUser(Integer id) {
 		return userMapper.deleteByPrimaryKey(id);
 	}
 
+	@Override
 	public int deleteBatchUser(Integer[] ids) {
 		int totalCount = 0 ;
 		for (Integer id : ids) {
@@ -110,5 +118,35 @@ public class UserServiceImpl implements UserService {
 		return totalCount;
 	}
 
+	/*@Override
+	public int deleteBatchUserByVO(Data data) {		
+		return userMapper.deleteBatchUserByVO(data);
+	}*/
+
 	
+	
+	@Override
+	public int deleteBatchUserByVO(Data data) {		
+		return userMapper.deleteBatchUserByVO(data.getDatas());
+	}
+
+	@Override
+	public List<Role> querAllRole() {		
+		return userMapper.querAllRole();
+	}
+
+	@Override
+	public List<Integer> queryRoleByUserid(Integer id) {
+		return userMapper.queryRoleByUserid(id);
+	}
+
+	@Override
+	public int saveUserRoleRelationship(Integer userid, Data data) {
+		return userMapper.saveUserRoleRelationship(userid,data);
+	}
+
+	@Override
+	public int deleteUserRoleRelationship(Integer userid, Data data) {
+		return userMapper.deleteUserRoleRelationship(userid,data);
+	}
 }

@@ -62,68 +62,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
 			<div class="tree">
-				<ul style="padding-left:0px;" class="list-group">
-					<li class="list-group-item tree-closed" >
-						<a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a> 
-					</li>
-					<li class="list-group-item">
-						<span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span> 
-						<ul style="margin-top:10px;">
-							<li style="height:30px;">
-								<a href="${APP_PATH }/user/toIndex.htm" style="color:red;"><i class="glyphicon glyphicon-user"></i> 用户维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="role.html"><i class="glyphicon glyphicon-king"></i> 角色维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right">3</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 实名认证审核</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_adv.html"><i class="glyphicon glyphicon-check"></i> 广告审核</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_project.html"><i class="glyphicon glyphicon-check"></i> 项目审核</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon-th-large"></i> 业务管理 <span class="badge" style="float:right">7</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="cert.html"><i class="glyphicon glyphicon-picture"></i> 资质维护</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="type.html"><i class="glyphicon glyphicon-equalizer"></i> 分类管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="process.html"><i class="glyphicon glyphicon-random"></i> 流程管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="advertisement.html"><i class="glyphicon glyphicon-hdd"></i> 广告管理</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="message.html"><i class="glyphicon glyphicon-comment"></i> 消息模板</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="project_type.html"><i class="glyphicon glyphicon-list"></i> 项目分类</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="tag.html"><i class="glyphicon glyphicon-tags"></i> 项目标签</a> 
-							</li>
-						</ul>
-					</li>
-					<li class="list-group-item tree-closed" >
-						<a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a> 
-					</li>
-				</ul>
+				<jsp:include page="/WEB-INF/jsp/common/menu.jsp"></jsp:include>
 			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -149,7 +88,7 @@
             <table class="table  table-bordered">
               <thead>
                 <tr>
-                  <th width="30">✅</th>
+                  <th width="30">#</th>
 				  <th width="30"><input id="allCheckbox" type="checkbox"></th>
                   <th>账号</th>
                   <th>名称</th>
@@ -196,7 +135,14 @@
 					}
 				});
 			    queryPageUser(1);
+			    showMenu();
             });
+            
+            
+            
+            
+            
+            
             $("tbody .btn-success").click(function(){
                 window.location.href = "assignRole.html";
             });
@@ -223,7 +169,7 @@
             	$.ajax({
             		type : "POST",
             		data : jsonObj,
-            		url : "${APP_PATH}/user/index.do",
+            		url : "${APP_PATH}/user/doIndex.do",
             		beforeSend : function(){
             			loadingIndex = layer.load(2, {time: 10*1000});
             			return true ;
@@ -232,19 +178,19 @@
             			layer.close(loadingIndex);
             			if(result.success){
             				var page = result.page ;
-            				var data = page.datas ;
+            				var data = page.data ;
             				
             				var content = '';
             				
             				$.each(data,function(i,n){
             					content+='<tr>';
                 				content+='  <td>'+(i+1)+'</td>';
-                				content+='  <td><input type="checkbox" id="'+n.id+'"></td>';
+                				content+='  <td><input type="checkbox" id="'+n.id+'" name="'+n.loginacct+'"></td>';
                 				content+='  <td>'+n.loginacct+'</td>';
                 				content+='  <td>'+n.username+'</td>';
                 				content+='  <td>'+n.email+'</td>';
                 				content+='  <td>';
-                				content+='	  <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                				content+='	  <button type="button" onclick="window.location.href=\'${APP_PATH}/user/assignRole.htm?id='+n.id+'\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                 				content+='	  <button type="button" onclick="window.location.href=\'${APP_PATH}/user/toUpdate.htm?id='+n.id+'\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                 				content+='	  <button type="button" onclick="deleteUser('+n.id+',\''+n.loginacct+'\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                 				content+='  </td>';
@@ -307,13 +253,11 @@
                 			"id" : id
                 		},
                 		url : "${APP_PATH}/user/doDelete.do",
-                		beforeSend : function() {  
-                			layer.msg('处理中', {icon: 16});
+                		beforeSend : function() {   
                 			return true ;
                 		},
                 		success : function(result){
                 			if(result.success){
-                				layer.msg("删除用户成功", {time:3000, icon:6, shift:6});
                 				window.location.href="${APP_PATH}/user/toIndex.htm";
                 			}else{
                 				layer.msg("删除用户失败", {time:1000, icon:5, shift:6}); 
@@ -333,14 +277,28 @@
             $("#allCheckbox").click(function(){
             	var checkedStatus = this.checked ;
             	//alert(checkedStatus);
-            	if(checkedStatus){
-            		$("tbody tr td input[type='checkbox']").prop("checked", true);
-            	}else{
-            		$("tbody tr td input[type='checkbox']").prop("checked", false);
-            	}
-            	
-
+            	//$("tbody tr td input[type='checkbox']").attr("checked",checkedStatus);
+            	//$("tbody tr td input[type='checkbox']").prop("checked",checkedStatus);
+            	var tbodyCheckbox = $("tbody tr td input[type='checkbox']");
+            	$.each(tbodyCheckbox,function(i,n){
+            		n.checked = checkedStatus;
+            	});
             });
+            
+            //只能给当前页面存在的元素增加事件,后来的元素无法增加事件.
+            /* $("tbody tr td input[type='checkbox']").click(function(){
+            	alert("888");
+            }); */
+            
+            //给后来元素增加事件.
+             $("tbody").delegate(":checkbox","click",function(){
+            	if($("tbody tr td input:checked").length==0){
+            		$("#allCheckbox").attr("checked",false);
+            	}else{
+            		$("#allCheckbox").attr("checked",true);
+            	}
+            });
+            
             
             
             $("#deleteBatchBtn").click(function(){
@@ -352,7 +310,7 @@
     				return false ;
     			}
             	
-            	var idStr = "";
+            	/* var idStr = "";
             	
             	$.each(selectCheckbox,function(i,n){
             		//  url?id=5&id=6&id=7
@@ -360,21 +318,29 @@
             			idStr += "&";
             		}
             		idStr += "id="+n.id; 
-            	}); 
+            	});  */
+            	
+            	
+            	var jsonObj = {};
+            	
+            	$.each(selectCheckbox,function(i,n){
+            		jsonObj["datas["+i+"].id"] = n.id;
+            		jsonObj["datas["+i+"].loginacct"] = n.name;
+            	});
             	
             	
             	layer.confirm("确认要删除这些用户吗?",  {icon: 3, title:'提示'}, function(cindex){
             		layer.close(cindex);
             		$.ajax({
                 		type : "POST",
-                		data : idStr,
+                		//data : idStr,
+                		data : jsonObj,
                 		url : "${APP_PATH}/user/doDeleteBatch.do",
                 		beforeSend : function() {                  			
                 			return true ;
                 		},
                 		success : function(result){
                 			if(result.success){
-                				layer.msg("删除用户成功", {time:3000, icon:6, shift:6}); 
                 				window.location.href="${APP_PATH}/user/toIndex.htm";
                 			}else{
                 				layer.msg("删除用户失败", {time:1000, icon:5, shift:6}); 
@@ -391,6 +357,7 @@
             });
             
         </script>
+        <script type="text/javascript" src="${APP_PATH }/script/menu.js"></script>
   </body>
 </html>
     
