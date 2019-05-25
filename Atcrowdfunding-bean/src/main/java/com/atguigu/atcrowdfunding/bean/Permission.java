@@ -13,9 +13,9 @@ public class Permission {
     private String icon;
 
     private String url;
-    
+    //树是否展开
     private boolean open ;
-    
+    //
     private List<Permission> children = new ArrayList<Permission>();
 
     public Integer getId() {
