@@ -145,7 +145,7 @@
 				  <div class="form-group">
 					<label for="femail">邮箱地址</label>
 					<input type="email" class="form-control" id="femail" placeholder="请输入邮箱地址">
-					<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+					<!-- <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p> -->
 				  </div>
 				  <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 				  <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
