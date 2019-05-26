@@ -23,8 +23,7 @@ public class PermissionController {
 	@RequestMapping("/toAdd")
 	public String toAdd(){
 		return "permission/add";
-	}
-	
+	}	
 	@RequestMapping("/index")
 	public String index(){
 		return "permission/index";

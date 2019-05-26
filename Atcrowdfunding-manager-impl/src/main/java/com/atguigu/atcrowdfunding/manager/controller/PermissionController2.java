@@ -36,8 +36,7 @@ public class PermissionController2 {
 		Permission permission = permissionService.getPermissionById(id);
 		map.put("permission", permission);
 		return "permission/update";
-	}
-	
+	}	
 	
 	@ResponseBody
 	@RequestMapping("/deletePermission")

@@ -34,7 +34,6 @@ public class PermissionServiceImpl  implements PermissionService {
 	public int savePermission(Permission permission) {
 		return permissionMapper.insert(permission);
 	}
-
 	@Override
 	public Permission getPermissionById(Integer id) {
 		return permissionMapper.selectByPrimaryKey(id); 
