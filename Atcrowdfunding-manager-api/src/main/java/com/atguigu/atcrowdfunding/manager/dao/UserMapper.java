@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.vo.Data;
@@ -45,5 +46,7 @@ public interface UserMapper {
 	int saveUserRoleRelationship(@Param("userid") Integer userid,@Param("data") Data data);
 
 	int deleteUserRoleRelationship(@Param("userid") Integer userid,@Param("data")  Data data);
+
+	List<Permission> queryPermissionByUserid(Integer id);
 	
 }

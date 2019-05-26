@@ -25,7 +25,7 @@
 	<update id="updateByPrimaryKey" parameterType="com.atguigu.atcrowdfunding.bean.Permission">
 		update
 		t_permission
-		set pid = #{pid,jdbcType=INTEGER},
+		set 
 		name =
 		#{name,jdbcType=VARCHAR},
 		icon = #{icon,jdbcType=VARCHAR},
@@ -54,7 +54,10 @@
 		select id, pid, name, icon, url
 		from t_permission where pid = #{id}
 	</select>
-	
+	<select id="queryPermissionidsByRoleid" parameterType="Integer" resultType="Integer">
+		select permissionid
+		from t_role_permission where roleid = #{roleid}
+	</select> 
 	
 	
 	

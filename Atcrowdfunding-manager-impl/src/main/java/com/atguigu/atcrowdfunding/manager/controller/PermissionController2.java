@@ -14,12 +14,13 @@ import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.manager.service.PermissionService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 
-//@Controller
-//@RequestMapping("/permission")
-public class PermissionController {
+@Controller
+@RequestMapping("/permission")
+public class PermissionController2 {
 
 	@Autowired
 	private PermissionService permissionService;
+	
 	@RequestMapping("/toAdd")
 	public String toAdd(){
 		return "permission/add";
@@ -29,12 +30,15 @@ public class PermissionController {
 	public String index(){
 		return "permission/index";
 	}
+	
 	@RequestMapping("/toUpdate")
 	public String toUpdate(Integer id,Map map){
 		Permission permission = permissionService.getPermissionById(id);
 		map.put("permission", permission);
 		return "permission/update";
 	}
+	
+	
 	@ResponseBody
 	@RequestMapping("/deletePermission")
 	public Object deletePermission(Integer id){
@@ -52,6 +56,7 @@ public class PermissionController {
 
 		return result ;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/doUpdate")
 	public Object doUpdate(Permission permission){
@@ -69,6 +74,7 @@ public class PermissionController {
 
 		return result ;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/doAdd")
 	public Object doAdd(Permission permission){
@@ -86,58 +92,60 @@ public class PermissionController {
 
 		return result ;
 	}
+	
+	
 	//Demo5 - 用Map集合来查找父,来组合父子关系.减少循环的次数 ,提高性能.
-		/*@ResponseBody
-		@RequestMapping("/loadData")
-		public Object loadData(){
-			AjaxResult result = new AjaxResult();
+	@ResponseBody
+	@RequestMapping("/loadData")
+	public Object loadData(){
+		AjaxResult result = new AjaxResult();
+		
+		try {
 			
-			try {
-				
-				List<Permission> root = new ArrayList<Permission>();
+			List<Permission> root = new ArrayList<Permission>();
 
-				
-				List<Permission> childredPermissons =  permissionService.queryAllPermission();
-				
-				
-				Map<Integer,Permission> map = new HashMap<Integer,Permission>();//100
-				
-				for (Permission innerpermission : childredPermissons) {
-					map.put(innerpermission.getId(), innerpermission);
-				}
-				
-				
-				for (Permission permission : childredPermissons) { //100
-					//通过子查找父
-					//子菜单
-					Permission child = permission ; //假设为子菜单
-					if(child.getPid() == null ){
-						root.add(permission);
-					}else{
-						//父节点
-						Permission parent = map.get(child.getPid());
-						parent.getChildren().add(child);
-					}
-				}
-
-				
-				
-				result.setSuccess(true);
-				result.setData(root);
-				
-			} catch (Exception e) {
-				result.setSuccess(false);
-				result.setMessage("加载许可树数据失败!");
+			
+			List<Permission> childredPermissons =  permissionService.queryAllPermission();
+			
+			
+			Map<Integer,Permission> map = new HashMap<Integer,Permission>();//100
+			
+			for (Permission innerpermission : childredPermissons) {
+				map.put(innerpermission.getId(), innerpermission);
 			}
 			
+			
+			for (Permission permission : childredPermissons) { //100
+				//通过子查找父
+				//子菜单
+				Permission child = permission ; //假设为子菜单
+				if(child.getPid() == null ){
+					root.add(permission);
+				}else{
+					//父节点
+					Permission parent = map.get(child.getPid());
+					parent.getChildren().add(child);
+				}
+			}
 
-			return result ;
-		}*/
+			
+			
+			result.setSuccess(true);
+			result.setData(root);
+			
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("加载许可树数据失败!");
+		}
+		
+
+		return result ;
+	}
 	
 	
 	
 	//Demo4 - 采用一次性加载所有permission数据;减少与数据的交互次数.
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping("/loadData")
 	public Object loadData(){
 		AjaxResult result = new AjaxResult();
@@ -179,7 +187,7 @@ public class PermissionController {
 
 		return result ;
 	}
-	
+	*/
 	
 	//Demo3 - 采用递归调用来解决,许可树多个层次的问题.
 	/*@ResponseBody
