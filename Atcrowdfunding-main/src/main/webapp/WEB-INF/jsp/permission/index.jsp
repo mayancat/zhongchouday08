@@ -129,6 +129,7 @@
 					removeHoverDom: function(treeId, treeNode){
 						$("#btnGroup"+treeNode.tId).remove();
 					}
+
    			   }
     		};
 

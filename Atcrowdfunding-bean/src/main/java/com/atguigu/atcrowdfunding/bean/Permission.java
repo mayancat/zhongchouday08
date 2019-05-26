@@ -19,7 +19,7 @@ public class Permission {
     private boolean checked;
     
     private int level;
-    
+    //
     private List<Permission> children = new ArrayList<Permission>();
 
     public Integer getId() {

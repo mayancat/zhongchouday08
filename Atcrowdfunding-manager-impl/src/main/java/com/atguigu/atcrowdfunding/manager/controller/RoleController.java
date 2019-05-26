@@ -47,7 +47,8 @@ public class RoleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/loadDataAsync")
-	public Object loadDataAsync(Integer roleid) {		
+	public Object loadDataAsync(Integer roleid) {
+		
 			List<Permission> root = new ArrayList<Permission>();
 
 			List<Permission> childredPermissons = permissionService.queryAllPermission();
