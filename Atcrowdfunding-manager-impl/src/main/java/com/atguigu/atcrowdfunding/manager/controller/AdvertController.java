@@ -135,7 +135,7 @@ public class AdvertController {
 			String iconpath = UUID.randomUUID().toString()+extname; //232243343.jpg
 			
 			ServletContext servletContext = session.getServletContext();
-			String realpath = servletContext.getRealPath("/pic");
+			String realpath = servletContext.getRealPath("/pics");
 			
 			String path =realpath+ "\\adv\\"+iconpath;
 			

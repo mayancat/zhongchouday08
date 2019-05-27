@@ -1,8 +1,10 @@
 package com.atguigu.atcrowdfunding.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -38,36 +40,6 @@ public class DispatcherController {
 	@RequestMapping("/main")
 	public String main(HttpSession session){	
 		
-		//加载当前登录用户的所拥有的许可权限.
-		
-		User user = (User)session.getAttribute(Const.LOGIN_USER);
-		
-		List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
-		
-		Permission permissionRoot = null;
-		
-		Map<Integer,Permission> map = new HashMap<Integer,Permission>();
-		
-		for (Permission innerpermission : myPermissions) {
-			map.put(innerpermission.getId(), innerpermission);
-		}
-		
-		
-		for (Permission permission : myPermissions) {
-			//通过子查找父
-			//子菜单
-			Permission child = permission ; //假设为子菜单
-			if(child.getPid() == null ){
-				permissionRoot = permission;
-			}else{
-				//父节点
-				Permission parent = map.get(child.getPid());
-				parent.getChildren().add(child);
-			}
-		}
-		
-		
-		session.setAttribute("permissionRoot", permissionRoot);
 
 		return "main";
 	}
@@ -99,6 +71,50 @@ public class DispatcherController {
 			User user = userService.queryUserlogin(paramMap);
 			
 			session.setAttribute(Const.LOGIN_USER, user);
+			
+			//---------------------
+
+			//加载当前登录用户的所拥有的许可权限.
+			
+			//User user = (User)session.getAttribute(Const.LOGIN_USER);
+			
+			List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId()); //当前用户所拥有的许可权限
+			
+			Permission permissionRoot = null;
+			
+			Map<Integer,Permission> map = new HashMap<Integer,Permission>();
+			
+			Set<String> myUris = new HashSet<String>(); //用于拦截器拦截许可权限
+			
+			for (Permission innerpermission : myPermissions) {
+				map.put(innerpermission.getId(), innerpermission);
+				
+				myUris.add("/"+innerpermission.getUrl());
+			}
+			
+			session.setAttribute(Const.MY_URIS, myUris);
+			
+			
+			for (Permission permission : myPermissions) {
+				//通过子查找父
+				//子菜单
+				Permission child = permission ; //假设为子菜单
+				if(child.getPid() == null ){
+					permissionRoot = permission;
+				}else{
+					//父节点
+					Permission parent = map.get(child.getPid());
+					parent.getChildren().add(child);
+				}
+			}
+			
+			
+			session.setAttribute("permissionRoot", permissionRoot);
+			//---------------------
+			
+			
+			
+			
 			result.setSuccess(true);
 			// {"success":true}
 		} catch (Exception e) {
