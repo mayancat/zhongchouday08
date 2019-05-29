@@ -26,9 +26,12 @@
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean" destroy-method="destroy">
   	    <property name="processEngineConfiguration" ref="processEngineConfiguration" />
     </bean>
-
+	<!-- 提供一系列管理流程部署和流程定义的API -->
     <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+    	<!-- 在流程运行时对流程实例进行管理与控制 -->
     <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+    	<!-- 对流程任务进行管理，例如任务提醒、任务完成和创建任务等 -->
     <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+    	<!-- 对流程的历史数据进行操作，包括查询、删除这些历史数据 -->
     <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
 </beans>

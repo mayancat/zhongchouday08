@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.atguigu.atcrowdfunding.bean.Member;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.util.Const;
 
@@ -26,6 +27,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		uri.add("/login.htm");
 		uri.add("/doLogin.do");
 		uri.add("/logout.do");
+		uri.add("/index.htm");
+		
 		
 		//获取请求路径.
 		String servletPath = request.getServletPath();
@@ -38,8 +41,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//2.判断用户是否登录,如果登录就放行
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute(Const.LOGIN_USER);
+		Member member = (Member)session.getAttribute(Const.LOGIN_MEMBER);
 		
-		if(user!=null){
+		if(user!=null || member!=null){
 			return true ;
 		}else{
 			response.sendRedirect(request.getContextPath()+"/login.htm");

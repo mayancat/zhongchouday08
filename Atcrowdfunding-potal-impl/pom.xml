@@ -6,6 +6,15 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+	
+		<dependency>
 			<groupId>com.atguigu.maven</groupId>
 			<artifactId>Atcrowdfunding-potal-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

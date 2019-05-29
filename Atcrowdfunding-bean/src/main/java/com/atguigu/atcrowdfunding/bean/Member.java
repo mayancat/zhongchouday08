@@ -20,7 +20,8 @@ public class Member {
     private String cardnum;
 
     private String accttype;
-
+    
+    private String tel;
     public Integer getId() {
         return id;
     }
@@ -100,4 +101,13 @@ public class Member {
     public void setAccttype(String accttype) {
         this.accttype = accttype == null ? null : accttype.trim();
     }
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+    
 }
