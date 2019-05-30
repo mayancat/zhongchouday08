@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.atguigu.atcrowdfunding.bean.Cert;
+import com.atguigu.atcrowdfunding.bean.MemberCert;
 import com.atguigu.atcrowdfunding.manager.dao.CertMapper;
 import com.atguigu.atcrowdfunding.manager.service.CertService;
 import com.atguigu.atcrowdfunding.util.Page;
@@ -79,6 +80,13 @@ public class CertServiceImpl implements CertService {
 	@Override
 	public int deleteAccttypeCert(Map<String, Object> map) {
 		return certDao.deleteAccttypeCert(map);
+	}
+
+	@Override
+	public void saveMemberCert(List<MemberCert> certimgs) {
+		for (MemberCert memberCert : certimgs) {
+			certDao.insertMemberCert(memberCert);
+		}
 	}
 
 }

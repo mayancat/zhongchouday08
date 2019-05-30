@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.atguigu.atcrowdfunding.bean.Cert;
+import com.atguigu.atcrowdfunding.bean.MemberCert;
 import com.atguigu.atcrowdfunding.util.Page;
 import com.atguigu.atcrowdfunding.vo.Data;
 
@@ -43,4 +44,8 @@ public interface CertService {
 	public int insertAccttypeCert(Map<String, Object> map);
 
 	public int deleteAccttypeCert(Map<String, Object> map);
+
+	public void saveMemberCert(List<MemberCert> certimgs);
+
+
 }

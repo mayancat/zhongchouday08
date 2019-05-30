@@ -9,6 +9,8 @@
 	
 	<!-- 独立的JAVA类及方法 -->
 	<bean id="workJob" class="com.atguigu.atcrowdfunding.task.FinishWorkTask"></bean>
+	
+	
 	<!-- 配置任务的具体类和方法 -->
 	<bean id="workTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<!-- 要调用的bean -->
@@ -18,11 +20,12 @@
 		<!-- 是否并发,false表示 如果发生错误也不影响下一次的调用 -->
 		<property name="concurrent" value="false"></property>
 	</bean>
-	<!-- 配置一个触发器 -->
+	
+	<!-- 克龙(时间单位)表达式.  配置一个触发器 -->
 	<bean id="workTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="workTask"></property>
 		<!--石英表达式，定义了任务的启动时间-->
-		<property name="cronExpression" value="0/3 9 * * * ?"></property> 
+		<property name="cronExpression" value="0-3 6 16 9 * ?"></property> 
 	</bean>
 	 
 	<!-- 总调度,用于启动定时器 -->

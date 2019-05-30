@@ -18,12 +18,6 @@
     border-top: 1px solid #ddd;
     text-align: center;
 }
-.seltype {
-    position: absolute;
-    margin-top: 70px;
-    margin-left: 10px;
-    color: red;
-}
 	</style>
   </head>
   <body>
@@ -54,46 +48,27 @@
     </div>
 
     <div class="container theme-showcase" role="main">
-
-
-
-
       <div class="page-header">
-        <h1>实名认证 - 账户类型选择</h1>
+        <h1>实名认证 - 申请</h1>
       </div>
-	  <div style="padding-top:10px;">
-		<div class="row">
-      <div class="col-xs-6 col-md-3">
-      
-      <h2>商业公司</h2>
-        <a href="#" class="thumbnail" accttype="0">          
-          <img alt="100%x180" src="img/services-box1.jpg" data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
-        </a>
-      </div>
-      <div class="col-xs-6 col-md-3">
-        <h2>个体工商户</h2>
-        <a href="#" class="thumbnail" accttype="1">
-          <img alt="100%x180" src="img/services-box2.jpg" data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
-        </a>
-      </div>
-      <div class="col-xs-6 col-md-3">
-        <h2>个人经营</h2>
-        <a href="#" class="thumbnail" accttype="2">
-          <img alt="100%x180" src="img/services-box3.jpg" data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
-        </a>
-      </div>
-      <div class="col-xs-6 col-md-3">
-        <h2>政府及非营利组织</h2>
-        <a href="#" class="thumbnail" accttype="3">
-          <img alt="100%x180" src="img/services-box4.jpg" data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
-        </a>
-      </div>
-    </div>
-	<button id="applyBtn" type="button" class="btn btn-danger btn-lg btn-block" >认证申请</button>
+
+		<ul class="nav nav-tabs" role="tablist">
+		  <li role="presentation" ><a href="#"><span class="badge">1</span> 基本信息</a></li>
+		  <li role="presentation" ><a href="#"><span class="badge">2</span> 资质文件上传</a></li>
+		  <li role="presentation" ><a href="#"><span class="badge">3</span> 邮箱确认</a></li>
+		  <li role="presentation" class="active"><a href="#"><span class="badge">4</span> 申请确认</a></li>
+		</ul>
+        
+		<form role="form" style="margin-top:20px;">
+		  <div class="form-group">
+			<label for="authcode">验证码</label>
+			<input type="text" class="form-control" id="authcode" placeholder="请输入你邮箱中接收到的验证码">
+		  </div>
+          <button type="button" onclick="javascript:;" class="btn btn-primary">重新发送验证码</button>
+		  <button type="button" id="finishBtn"  class="btn btn-success">申请完成</button>
+		</form>
+		<hr>
     </div> <!-- /container -->
-      <!-- /END THE FEATURETTES -->
-
-
         <div class="container" style="margin-top:20px;">
             <div class="row clearfix">
                 <div class="col-md-12 column">
@@ -102,7 +77,7 @@
                              <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow" href="http://www.atguigu.com">服务条款</a> | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow" href="http://www.atguigu.com">网站地图</a> | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
                         </div>
                         <div class="copyRight">
-                            Copyright ?2017-2017atguigu.com 版权所有
+                            Copyright ?2017-2017 atguigu.com 版权所有
                         </div>
                     </div>
                     
@@ -111,47 +86,36 @@
         </div>
     <script src="${APP_PATH }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH }/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${APP_PATH }/script/docs.min.js"></script>	
-	<script type="text/javascript" src="${APP_PATH }/jquery/layer/layer.js"></script>
+	<script src="${APP_PATH }/script/docs.min.js"></script>
 	<script>
-	
-	var accttype = 0 ;
-	
-    $(".thumbnail").click(function(){
-        $('.seltype').remove();
-        $(this).prepend('<div class="glyphicon glyphicon-ok seltype"></div>');
-        accttype = $(this).attr("accttype");
-    });
-    
-    $.each($(".thumbnail img"), function(i, n){
-    	$(this).attr("src", "${APP_PATH}/" + $(this).attr("src"));
-    });
+        $('#myTab a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        });    
+        
+        
+        $("#finishBtn").click(function(){
+        	$.ajax({
+        		type : "POST",
+        		url  : "${APP_PATH}/member/finishApply.do",
+        		data : {
+        			authcode : $("#authcode").val()
+        		},
+        		success : function(result) {
+        			if ( result.success ) {
+        				window.location.href = "${APP_PATH}/member.htm";
+        			} else {
+        				var msg = "实名认证申请失败";
+        				if ( result.message ) {
+        					msg = result.message;
+        				}
+        				layer.msg(msg, {time:1000, icon:5, shift:6});
+        			}
+        		}
+        	});
+        });
 
-    $("#applyBtn").click(function(){
-    	// 判断账户类型是否被选中
-    	var len = $('.seltype').length;
-    	if ( len == 0 ) {
-    		layer.msg("请选择账户类型继续申请", {time:1000, icon:5, shift:6});
-    	} else {
-    		// 保存选择的账户类型
-    		$.ajax({
-    			type : "POST",
-    			url  : "${APP_PATH}/member/updateAcctType.do",  //更新账户的类型
-    			data : {
-    				accttype : accttype
-    			},
-    			success : function(result) {
-    				if ( result.success ) {
-    					window.location.href = "${APP_PATH}/member/basicinfo.htm";
-    				} else {
-    					layer.msg("账户类型更新失败", {time:1000, icon:5, shift:6});
-    				}
-    			}
-    		});
-    	}
-    });
-
-
+        
 	</script>
   </body>
 </html>

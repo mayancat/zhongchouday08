@@ -12,4 +12,8 @@ public interface MemberService {
 
 	void updateBasicinfo(Member loginMember);
 
+	void updateEmail(Member loginMember);
+
+	void updateAuthstatus(Member loginMember);
+
 }

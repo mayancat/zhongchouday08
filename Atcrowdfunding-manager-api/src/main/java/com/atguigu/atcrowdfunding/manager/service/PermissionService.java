@@ -20,6 +20,6 @@ public interface PermissionService {
 
 	int deletePermission(Integer id);
 
-	List<Integer> queryPermissionidsByRoleid(Integer roleid);		
+	List<Integer> queryPermissionidsByRoleid(Integer roleid);
 
 }

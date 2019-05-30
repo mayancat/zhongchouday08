@@ -20,4 +20,8 @@ public interface MemberMapper {
 	void updateAcctType(Member loginMember);
 
 	void updateBasicinfo(Member loginMember);
+
+	void updateEmail(Member loginMember);
+
+	void updateAuthstatus(Member loginMember);
 }

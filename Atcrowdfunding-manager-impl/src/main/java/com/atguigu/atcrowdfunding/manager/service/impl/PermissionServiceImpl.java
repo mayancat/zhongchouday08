@@ -10,7 +10,7 @@ import com.atguigu.atcrowdfunding.manager.dao.PermissionMapper;
 import com.atguigu.atcrowdfunding.manager.service.PermissionService;
 
 @Service
-public class PermissionServiceImpl  implements PermissionService {
+public class PermissionServiceImpl implements PermissionService {
 
 	@Autowired
 	private PermissionMapper permissionMapper;
@@ -37,7 +37,7 @@ public class PermissionServiceImpl  implements PermissionService {
 
 	@Override
 	public Permission getPermissionById(Integer id) {
-		return permissionMapper.selectByPrimaryKey(id); 
+		return permissionMapper.selectByPrimaryKey(id);
 	}
 
 	@Override

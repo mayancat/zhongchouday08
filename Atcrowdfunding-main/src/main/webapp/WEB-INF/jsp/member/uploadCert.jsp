@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -12,12 +13,12 @@
 	<link rel="stylesheet" href="${APP_PATH }/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${APP_PATH }/css/theme.css">
 	<style>
-#footer {
-    padding: 15px 0;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    text-align: center;
-}
+	#footer {
+	    padding: 15px 0;
+	    background: #fff;
+	    border-top: 1px solid #ddd;
+	    text-align: center;
+	}
 	</style>
   </head>
   <body>
@@ -53,27 +54,27 @@
       </div>
 
 		<ul class="nav nav-tabs" role="tablist">
-		  <li role="presentation" class="active"><a href="#"><span class="badge">1</span> 基本信息</a></li>
-		  <li role="presentation"><a href="#"><span class="badge">2</span> 资质文件上传</a></li>
+		  <li role="presentation" ><a href="#"><span class="badge">1</span> 基本信息</a></li>
+		  <li role="presentation" class="active"><a href="#"><span class="badge">2</span> 资质文件上传</a></li>
 		  <li role="presentation"><a href="#"><span class="badge">3</span> 邮箱确认</a></li>
 		  <li role="presentation"><a href="#"><span class="badge">4</span> 申请确认</a></li>
 		</ul>
         
-		<form role="form" style="margin-top:20px;">
-		  <div class="form-group">
-			<label for="realname">真实名称</label>
-			<input type="text" class="form-control" id="realname" placeholder="请输入真实名称">
-		  </div>
-		  <div class="form-group">
-			<label for="cardnum">身份证号码</label>
-			<input type="text" class="form-control" id="cardnum" placeholder="请输入身份证号码">
-		  </div>
-		  <div class="form-group">
-			<label for="tel">电话号码</label>
-			<input type="text" class="form-control" id="tel" placeholder="请输入电话号码">
-		  </div>
-          <button type="button" onclick="window.location.href='accttype.html'" class="btn btn-default">上一步</button>
-		  <button id="nextBtn" type="button"  class="btn btn-success">下一步</button>
+		<form id="uploadCertForm" style="margin-top:20px;" method="post" enctype="multipart/form-data">
+		
+			<c:forEach items="${queryCertByAccttype }" var="cert" varStatus="status">
+				<div class="form-group">
+					<label for="name">${cert.name }</label>
+					<input type="hidden" name="certimgs[${status.index }].certid" value="${cert.id }">
+					<input type="file" name="certimgs[${status.index }].fileImg" class="form-control" >
+		            <br>
+		            <img src="${APP_PATH }/img/pic.jpg" style="display:none">
+			   </div>
+			</c:forEach>
+			
+			
+          <button type="button" onclick="window.location.href='apply.html'" class="btn btn-default">上一步</button>
+		  <button type="button" id="nextBtn"  class="btn btn-success">下一步</button>
 		</form>
 		<hr>
     </div> <!-- /container -->
@@ -95,6 +96,9 @@
     <script src="${APP_PATH }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH }/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH }/script/docs.min.js"></script>
+	<script src="${APP_PATH }/jquery/jquery-form/jquery-form.min.js"></script>
+	<script type="text/javascript" src="${APP_PATH }/jquery/layer/layer.js"></script>
+	
 	<script>
         $('#myTab a').click(function (e) {
           e.preventDefault()
@@ -102,24 +106,47 @@
         });  
         
         
+        $(":file").change(function(event){
+        	var files = event.target.files;
+        	var file;
+        	
+        	if (files && files.length > 0) {
+        		file = files[0];
+        		
+        		var URL = window.URL || window.webkitURL;
+        		// 本地图片路径
+        		var imgURL = URL.createObjectURL(file);
+        		
+        		var imgObj = $(this).next().next(); //获取同辈紧邻的下一个元素
+        		//console.log(imgObj);
+        		imgObj.attr("src", imgURL);
+        		imgObj.show();
+        	}
+		});
+        
+        
         $("#nextBtn").click(function(){
-	       	$.ajax({
-	       		type : "POST",
-	       		url  : "${APP_PATH}/member/updateBasicinfo.do",
-	       		data : {
-	       			realname : $("#realname").val(),
-	       			cardnum  : $("#cardnum").val(),
-	       			tel      : $("#tel").val()
-	       		},
-	       		success : function(result) {
-	       			if ( result.success ) {
-	       				window.location.href = "${APP_PATH}/member/uploadCert.htm";
-	       			} else {
-	       				layer.msg("基本信息更新失败", {time:1000, icon:5, shift:6});
-	       			}
-	       		}
-	       	});
-       });
+        	var loadingIndex = -1 ;
+        	var options = {
+       			url:"${APP_PATH}/member/doUploadCert.do",
+   				beforeSubmit : function(){
+   					loadingIndex = layer.msg('数据正在保存中', {icon: 6});
+           			return true ; //必须返回true,否则,请求终止.
+   				},
+   				success : function(result){
+           			layer.close(loadingIndex);
+           			if(result.success){
+           				layer.msg("数据保存成功", {time:1000, icon:6});
+           				window.location.href="${APP_PATH}/member/apply.htm";
+           			}else{
+           				layer.msg("数据保存失败", {time:1000, icon:5, shift:6});
+           			}	
+           		}	
+       		};
+       		
+       		$("#uploadCertForm").ajaxSubmit(options); //异步提交
+       		return ; 
+        });
 
 	</script>
   </body>

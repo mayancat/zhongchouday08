@@ -77,4 +77,21 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  
+  
+  <update id="updateEmail">
+  update t_member
+    set 
+      email = #{email}
+    where id = #{id}
+  </update>
+  
+  <update id="updateAuthstatus">
+  update t_member
+    set 
+     authstatus = #{authstatus}
+    where id = #{id}
+  </update>
+  
+  
 </mapper>
