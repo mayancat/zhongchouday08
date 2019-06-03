@@ -77,7 +77,7 @@
           <div class="table-responsive">
           
           	<form id="deployForm" action="" method="POST" enctype="multipart/form-data">
-          		<input id="processDefFile" style="display:block" type="file" name="processDefFile">
+          		<input id="processDefFile" style="display:none" type="file" name="processDefFile">
           	</form>
           
           

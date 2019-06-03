@@ -54,12 +54,12 @@
 		select id, pid, name, icon, url
 		from t_permission where pid = #{id}
 	</select>
-	<select id="queryPermissionidsByRoleid" parameterType="Integer" resultType="Integer">
+	
+	
+	<select id="queryPermissionidsByRoleid" parameterType="int" resultType="int">
 		select permissionid
 		from t_role_permission where roleid = #{roleid}
-	</select> 
-	
-	
+	</select>
 	
 	
 	

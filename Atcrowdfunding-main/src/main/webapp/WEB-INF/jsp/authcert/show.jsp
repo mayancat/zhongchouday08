@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -26,7 +27,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
-            <div><a class="navbar-brand" style="font-size:32px;" href="user.html">众筹平台 - 用户维护</a></div>
+            <div><a class="navbar-brand" style="font-size:32px;" href="user.html">众筹平台 - 实名认证审核</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -57,28 +58,38 @@
 				<ol class="breadcrumb">
 				  <li><a href="#">首页</a></li>
 				  <li><a href="#">数据列表</a></li>
-				  <li class="active">新增</li>
+				  <li class="active">显示会员资质信息</li>
 				</ol>
 			<div class="panel panel-default">
               <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-				<form id="addForm">
+			  <div class="panel-body">
+				<form>
 				  <div class="form-group">
-					<label for="floginacct">登陆账号</label>
-					<input type="text" class="form-control" id="floginacct" placeholder="请输入登陆账号">
+					<label for="frealname">会员真实姓名</label>
+					${member.realname }
 				  </div>
 				  <div class="form-group">
-					<label for="fusername">用户名称</label>
-					<input type="text" class="form-control" id="fusername"  placeholder="请输入用户名称">
+					<label for="fcardnum">会员身份证号</label>
+					${member.cardnum }
 				  </div>
 				  <div class="form-group">
-					<label for="femail">邮箱地址</label>
-					<input type="email" class="form-control" id="femail" placeholder="请输入邮箱地址">
-					<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+					<label for="ftel">会员电话号</label>
+					${member.tel }
 				  </div>
-				  <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
-				  <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+				  
+				  <hr>
+				  <c:forEach items="${certimgs }" var="map">				  
+					  <div class="form-group">
+						<label for="frealname">${map.name }</label><br>
+						<img src="${APP_PATH }/pics/cert/${map.iconpath}">
+					  </div>
+				  </c:forEach>
+				  
+				  <button id="passBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 通过</button>
+				  <button id="refuseBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 拒绝</button>
 				</form>
+			  </div>
 			  </div>
 			</div>
         </div>
@@ -129,44 +140,34 @@
 				});
             });
             
-            
-            $("#addBtn").click(function(){
-            	var floginacct = $("#floginacct");
-            	var fusername = $("#fusername");
-            	var femail = $("#femail");
-            	
-            	
+            $("#passBtn").click(function(){
             	$.ajax({
             		type : "POST",
+            		url  : "${APP_PATH}/authcert/pass.do",
             		data : {
-            			"loginacct" : floginacct.val(),
-            			"username" : fusername.val(),
-            			"email" : femail.val()            			
+            			taskid : "${param.taskid}",
+            			memberid : "${param.memberid}"
             		},
-            		url : "${APP_PATH}/user/doAdd.do",
-            		beforeSend : function() {            			
-            			return true ;
-            		},
-            		success : function(result){
-            			if(result.success){
-            				window.location.href="${APP_PATH}/user/index.htm";
-            			}else{
-            				layer.msg("保存用户失败", {time:1000, icon:5, shift:6}); 
-            			}
-            		},
-            		error : function(){
-            			layer.msg("保存失败", {time:1000, icon:5, shift:6}); 
+            		success : function(result) {
+            			window.location.href = "${APP_PATH}/authcert/index.htm";
             		}
             	});
-            	
             });
             
-            
-            $("#resetBtn").click(function(){
-            	$("#addForm")[0].reset();
+            $("#refuseBtn").click(function(){
+            	$.ajax({
+            		type : "POST",
+            		url  : "${APP_PATH}/authcert/refuse.do",
+            		data : {
+            			taskid : "${param.taskid}",
+            			memberid : "${param.memberid}"
+            		},
+            		success : function(result) {
+            			window.location.href = "${APP_PATH}/authcert/index.htm";
+            		}
+            	});
+
             });
-            
-            
         </script>
   </body>
 </html>

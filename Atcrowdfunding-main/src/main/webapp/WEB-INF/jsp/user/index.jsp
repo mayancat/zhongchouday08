@@ -193,7 +193,7 @@
             				// 创建分页
             				$("#Pagination").pagination(page.totalsize, {
             					num_edge_entries: 1, //边缘页数
-            					num_display_entries: 6, //主体页数
+            					num_display_entries: 2, //主体页数
             					callback: queryPageUser,
             					items_per_page:10, //每页显示1项
             					current_page:(page.pageno-1),

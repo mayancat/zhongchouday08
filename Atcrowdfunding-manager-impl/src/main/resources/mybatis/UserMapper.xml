@@ -135,7 +135,8 @@
 	</delete>
 	
 	
-	<select id="queryPermissionByUserid" parameterType="Integer" resultType="Permission">
+	
+	<select id="queryPermissionByUserid" parameterType="int" resultType="Permission">
 		select distinct t_permission.id, t_permission.pid, t_permission.name,t_permission.icon,t_permission.url
 		from t_permission,t_role_permission,t_role,t_user_role,t_user 
 		where 
@@ -145,4 +146,5 @@
 		and t_user_role.`userid` = t_user.`id` 
 		and t_user.id=#{userid} order by t_permission.id
 	</select>
+
 </mapper>

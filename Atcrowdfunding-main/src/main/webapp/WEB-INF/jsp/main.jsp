@@ -44,7 +44,7 @@
           <!-- 静态包含:被包含的页面不会生成独立字节码文件.
           			将所包含的页面内容加入到当前页面,一起进行编译.
            -->
-            	<%@ include file="/WEB-INF/jsp/common/top.jsp" %>
+            	<%@ include file="/WEB-INF/jsp/common/userinfo.jsp" %>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="查询">

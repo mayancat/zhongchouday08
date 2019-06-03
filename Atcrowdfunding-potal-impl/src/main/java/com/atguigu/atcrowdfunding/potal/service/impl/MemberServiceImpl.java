@@ -1,5 +1,7 @@
 package com.atguigu.atcrowdfunding.potal.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateAuthstatus(Member loginMember) {
 		memberMapper.updateAuthstatus(loginMember);
+	}
+
+	@Override
+	public Member getMemberById(Integer memberid) {
+		return memberMapper.getMemberById(memberid);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryCertByMemberid(Integer memberid) {
+		return memberMapper.queryCertByMemberid(memberid);
+	}
+
+	@Override
+	public int saveMember(HashMap<String, Object> member) {
+		return memberMapper.saveMember(member);
 	}
 	
 }

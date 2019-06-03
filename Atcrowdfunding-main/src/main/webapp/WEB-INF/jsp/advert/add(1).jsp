@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -23,15 +22,15 @@
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-            <div><a class="navbar-brand" style="font-size:32px;" href="user.html">众筹平台 - 用户维护</a></div>
+            <div><a class="navbar-brand" style="font-size:32px;" href="user.html">众筹平台 - 广告维护</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li style="padding-top:8px;">
-				<%@include file="/WEB-INF/jsp/common/userinfo.jsp"%>
+				<%@include file="/WEB-INF/jsp/common/userinfo.jsp" %>
 			</li>
             <li style="margin-left:10px;padding-top:8px;">
 				<button type="button" class="btn btn-default btn-danger">
@@ -62,22 +61,21 @@
 			<div class="panel panel-default">
               <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-				<form id="addForm">
+				<form id="advertForm" method="post" action="" enctype="multipart/form-data">
 				  <div class="form-group">
-					<label for="floginacct">登陆账号</label>
-					<input type="text" class="form-control" id="floginacct" placeholder="请输入登陆账号">
+					<label for="name">广告名称</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="请输入广告名称">
 				  </div>
 				  <div class="form-group">
-					<label for="fusername">用户名称</label>
-					<input type="text" class="form-control" id="fusername"  placeholder="请输入用户名称">
+					<label for="url">广告地址</label>
+					<input type="text" class="form-control" id="url" name="url" placeholder="请输入广告地址">
 				  </div>
 				  <div class="form-group">
-					<label for="femail">邮箱地址</label>
-					<input type="email" class="form-control" id="femail" placeholder="请输入邮箱地址">
-					<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+					<label for="advpic">广告图片</label>
+					<input type="file" class="form-control" id="advpic" name="advpic" placeholder="请输入广告图片">
 				  </div>
-				  <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
-				  <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+				  <button id="saveBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+				  <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
 				</form>
 			  </div>
 			</div>
@@ -113,8 +111,8 @@
     <script src="${APP_PATH }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH }/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH }/script/docs.min.js"></script>
-	<script type="text/javascript" src="${APP_PATH }/jquery/layer/layer.js"></script>
-	
+	<script src="${APP_PATH }/jquery/layer/layer.js"></script>
+	<script src="${APP_PATH }/jquery/jquery-form/jquery-form.min.js"></script>
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -128,46 +126,38 @@
 					}
 				});
             });
-            
-            
-            $("#addBtn").click(function(){
-            	var floginacct = $("#floginacct");
-            	var fusername = $("#fusername");
-            	var femail = $("#femail");
-            	
-            	
-            	$.ajax({
-            		type : "POST",
-            		data : {
-            			"loginacct" : floginacct.val(),
-            			"username" : fusername.val(),
-            			"email" : femail.val()            			
-            		},
-            		url : "${APP_PATH}/user/doAdd.do",
-            		beforeSend : function() {            			
-            			return true ;
-            		},
-            		success : function(result){
-            			if(result.success){
-            				window.location.href="${APP_PATH}/user/index.htm";
-            			}else{
-            				layer.msg("保存用户失败", {time:1000, icon:5, shift:6}); 
-            			}
-            		},
-            		error : function(){
-            			layer.msg("保存失败", {time:1000, icon:5, shift:6}); 
-            		}
-            	});
-            	
-            });
-            
-            
-            $("#resetBtn").click(function(){
-            	$("#addForm")[0].reset();
+            $(function(){
+            	$("#saveBtn").click(function(){
+            		
+            		var options = {
+            			url:"${APP_PATH}/advert/doAdd.do",
+           				beforeSubmit : function(){
+           					loadingIndex = layer.msg('数据正在保存中', {icon: 6});
+                   			return true ; //必须返回true,否则,请求终止.
+           				},
+           				success : function(result){
+                			layer.close(loadingIndex);
+                			if(result.success){
+                				layer.msg("广告数据保存成功", {time:1000, icon:6});
+                				window.location.href="${APP_PATH}/advert/index.htm";
+                			}else{
+                				layer.msg("广告数据保存失败", {time:1000, icon:5, shift:6});
+                			}	
+                		}	
+            		};
+            		
+            		$("#advertForm").ajaxSubmit(options); //异步提交
+            		return ; 
+            		
+            		
+            		/* $("#advertForm").attr("action","${APP_PATH}/advert/doAdd.do");
+            		$("#advertForm").submit(); */
+            		
+                	
+                });	
             });
             
             
         </script>
   </body>
 </html>
-    

@@ -72,7 +72,7 @@
 			<label for="tel">电话号码</label>
 			<input type="text" class="form-control" id="tel" placeholder="请输入电话号码">
 		  </div>
-          <button type="button" onclick="window.location.href='accttype.html'" class="btn btn-default">上一步</button>
+          <button type="button" onclick="window.location.href='accttype.htm'" class="btn btn-default">上一步</button>
 		  <button id="nextBtn" type="button"  class="btn btn-success">下一步</button>
 		</form>
 		<hr>

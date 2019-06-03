@@ -1,6 +1,8 @@
 package com.atguigu.atcrowdfunding.potal.dao;
 
 import com.atguigu.atcrowdfunding.bean.Member;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +26,10 @@ public interface MemberMapper {
 	void updateEmail(Member loginMember);
 
 	void updateAuthstatus(Member loginMember);
+
+	Member getMemberById(Integer memberid);
+
+	List<Map<String, Object>> queryCertByMemberid(Integer memberid);
+
+	int saveMember(HashMap<String, Object> member);
 }

@@ -67,11 +67,14 @@
 					<label for="fname">许可名称</label>
 					<input type="text" class="form-control" id="fname"  placeholder="请输入许可名称">
 				  </div>
+				  
 				  <div class="form-group">
 					<label for="furl">许可URL</label>
 					<input type="email" class="form-control" id="furl" placeholder="请输入许可URL">
 					<p class="help-block label label-warning">请输入许可URL</p>
 				  </div>
+				  
+				  
 				  <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 				  <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
 				</form>

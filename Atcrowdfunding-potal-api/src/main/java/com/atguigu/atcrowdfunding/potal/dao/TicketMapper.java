@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.potal.dao;
 
+import com.atguigu.atcrowdfunding.bean.Member;
 import com.atguigu.atcrowdfunding.bean.Ticket;
 import java.util.List;
 
@@ -17,5 +18,9 @@ public interface TicketMapper {
 	void updatePstep(Ticket ticket);
 
 	void updatePiidAndPstep(Ticket ticket);
+
+	Member getMemberByPiid(String processInstanceId);
+
+	void updateStatus(Member member);
 
 }

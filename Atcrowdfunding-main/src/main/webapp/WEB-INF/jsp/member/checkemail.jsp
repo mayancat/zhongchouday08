@@ -64,7 +64,7 @@
 			<label for="memberEmail">邮箱地址</label>
 			<input type="text" class="form-control" id="memberEmail" value="${loginMember.email }" placeholder="请输入用于接收验证码的邮箱地址">
 		  </div>
-          <button type="button" onclick="window.location.href='apply-1.html'" class="btn btn-default">上一步</button>
+          <button type="button" onclick="window.location.href='uploadCert.htm'" class="btn btn-default">上一步</button>
 		  <button type="button" id="nextBtn" class="btn btn-success">下一步</button>
 		</form>
 		<hr>

@@ -37,7 +37,7 @@
                     <li><a href="member.html"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
                     <li class="divider"></li>
-                    <li><a href="index.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                    <li><a href="${APP_PATH }/logout.do"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
                   </ul>
                 </li>
               </ul>
@@ -73,7 +73,7 @@
 			</c:forEach>
 			
 			
-          <button type="button" onclick="window.location.href='apply.html'" class="btn btn-default">上一步</button>
+          <button type="button" onclick="window.location.href='basicinfo.htm'" class="btn btn-default">上一步</button>
 		  <button type="button" id="nextBtn"  class="btn btn-success">下一步</button>
 		</form>
 		<hr>

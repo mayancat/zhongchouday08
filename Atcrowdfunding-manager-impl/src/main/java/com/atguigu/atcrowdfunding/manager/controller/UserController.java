@@ -192,7 +192,6 @@ public class UserController {
 	public Object doAdd(User user){
 		AjaxResult result = new AjaxResult();
 		try {
-			
 			int count = userService.saveUser(user);
 			result.setSuccess(count==1);
 		} catch (Exception e) {
